@@ -4,6 +4,7 @@ import com.springboot.blog.payload.PostDTO;
 import com.springboot.blog.payload.PostResponse;
 import com.springboot.blog.service.impl.PostService;
 import com.springboot.blog.utils.AppConstants;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,9 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
+    public ResponseEntity<PostDTO> createPost(
+            @Valid @RequestBody PostDTO postDTO
+    ) {
         return new ResponseEntity<>(postService.createPost(postDTO), HttpStatus.CREATED);
     }
 
@@ -36,18 +39,25 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostDTO> getPostById(@PathVariable(name = "id") long postId) {
+    public ResponseEntity<PostDTO> getPostById(
+            @PathVariable(name = "id") long postId
+    ) {
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostDTO> updatePost(@RequestBody PostDTO postDTO, @PathVariable(name = "id") long postId) {
+    public ResponseEntity<PostDTO> updatePost(
+            @Valid @RequestBody PostDTO postDTO,
+            @PathVariable(name = "id") long postId
+    ) {
         PostDTO postResponse = postService.updatePost(postDTO, postId);
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable(name = "id") long postId) {
+    public ResponseEntity<String> deletePost(
+            @PathVariable(name = "id") long postId
+    ) {
         postService.deleteById(postId);
         return new ResponseEntity<>(String.format("Delete Post with Id %s success", postId), HttpStatus.OK);
     }
