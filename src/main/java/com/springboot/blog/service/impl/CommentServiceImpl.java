@@ -5,25 +5,25 @@ import com.springboot.blog.entity.Post;
 import com.springboot.blog.exception.BlogAPIException;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.payload.CommentDTO;
-import com.springboot.blog.payload.PostDTO;
 import com.springboot.blog.repository.CommentRepository;
 import com.springboot.blog.repository.PostRepository;
-import org.springframework.aop.scope.ScopedObject;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImpl implements CommentService{
     private CommentRepository commentRepository;
     private PostRepository postRepository;
+    private ModelMapper mapper;
 
-    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository, ModelMapper mapper) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -86,19 +86,12 @@ public class CommentServiceImpl implements CommentService{
     }
 
     private CommentDTO mapToDTO(Comment comment) {
-        CommentDTO commentDTO =  new CommentDTO();
-        commentDTO.setId(comment.getId());
-        commentDTO.setName(comment.getName());
-        commentDTO.setBody(comment.getBody());
-        commentDTO.setEmail(comment.getEmail());
+        CommentDTO commentDTO =  mapper.map(comment, CommentDTO.class);
         return commentDTO;
     }
 
     private Comment mapToEntity(CommentDTO commentDTO) {
-        Comment comment = new Comment();
-        comment.setName(commentDTO.getName());
-        comment.setBody(commentDTO.getBody());
-        comment.setEmail(commentDTO.getEmail());
+        Comment comment = mapper.map(commentDTO, Comment.class);
         return comment;
     }
 }
