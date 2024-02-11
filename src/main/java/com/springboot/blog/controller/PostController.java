@@ -2,14 +2,13 @@ package com.springboot.blog.controller;
 
 import com.springboot.blog.payload.PostDTO;
 import com.springboot.blog.payload.PostResponse;
-import com.springboot.blog.service.impl.PostService;
+import com.springboot.blog.service.PostService;
 import com.springboot.blog.utils.AppConstants;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -21,6 +20,7 @@ public class PostController {
         this.postService = postService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostDTO> createPost(
             @Valid @RequestBody PostDTO postDTO
@@ -45,6 +45,7 @@ public class PostController {
         return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<PostDTO> updatePost(
             @Valid @RequestBody PostDTO postDTO,
@@ -54,6 +55,7 @@ public class PostController {
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(
             @PathVariable(name = "id") long postId

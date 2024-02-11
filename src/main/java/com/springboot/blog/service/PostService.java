@@ -1,4 +1,4 @@
-package com.springboot.blog.service.impl;
+package com.springboot.blog.service;
 
 import com.springboot.blog.payload.PostDTO;
 import com.springboot.blog.payload.PostResponse;

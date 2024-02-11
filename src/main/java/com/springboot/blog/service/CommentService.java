@@ -1,9 +1,8 @@
-package com.springboot.blog.service.impl;
+package com.springboot.blog.service;
 
 import com.springboot.blog.payload.CommentDTO;
 
 import java.util.List;
-import java.util.Set;
 
 public interface CommentService {
     CommentDTO createComment(long postId, CommentDTO commentDTO);
