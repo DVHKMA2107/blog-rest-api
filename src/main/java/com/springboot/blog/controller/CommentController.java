@@ -1,16 +1,13 @@
 package com.springboot.blog.controller;
 
 import com.springboot.blog.payload.CommentDTO;
-import com.springboot.blog.payload.PostDTO;
-import com.springboot.blog.service.impl.CommentService;
+import com.springboot.blog.service.CommentService;
 import jakarta.validation.Valid;
-import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/")
