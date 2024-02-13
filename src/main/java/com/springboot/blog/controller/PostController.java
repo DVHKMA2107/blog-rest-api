@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
@@ -62,5 +64,11 @@ public class PostController {
     ) {
         postService.deleteById(postId);
         return new ResponseEntity<>(String.format("Delete Post with Id %s success", postId), HttpStatus.OK);
+    }
+
+    @GetMapping("/category/{id}")
+    public ResponseEntity<List<PostDTO>> getPostsByCategory(@PathVariable(name = "id") Long categoryId) {
+        List<PostDTO> postDTOs = postService.getPostsByCategory(categoryId);
+        return new ResponseEntity<>(postDTOs, HttpStatus.OK);
     }
 }
