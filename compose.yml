@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: myblog
+    networks:
+      - myblog-networks
+
+  springboot-blog-restful-api:
+    container_name: springboot-blog-restful-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysqldb
+    networks:
+      - myblog-networks
+    restart: on-failure
+
+networks:
+  myblog-networks:
+    name: myblog-networks
+    driver: bridge
